@@ -39,8 +39,9 @@ class Nodo
 		TDlista Final;
 	public:
 		Nodo();
-		void Push_inicio(int nuevo_dato);
-		void Mostrar();
+		void Push_inicio(TDlista &Frente,TDlista &Final,int nuevo_dato);
+		void Push_final(TDlista &Frente,TDlista &Final,int nuevo_dato);
+		void Mostrar(TDlista &Frente,TDlista &Final);
 };
 
 
@@ -50,7 +51,7 @@ Nodo::Nodo()
 	Final = NULL;
 }
 
-void Nodo::Push_inicio(int nuevo_dato)
+void Nodo::Push_inicio(TDlista &Frente,TDlista &Final,int nuevo_dato)
 {
 	TDlista q;
 	q = new (class Nodo);
@@ -64,13 +65,37 @@ void Nodo::Push_inicio(int nuevo_dato)
 	}
 	else
 	{
-		q -> siguiente = Frente;
 		q -> anterior = NULL;
+		q -> siguiente = Frente;
+		Frente -> anterior = q;		
 		Frente = q;
 	}
 }
 
-void Nodo::Mostrar()
+void Nodo::Push_final(TDlista &Frente,TDlista &Final,int nuevo_dato)
+{
+	TDlista q;
+	q = new (class Nodo);
+	q -> dato = nuevo_dato;
+
+	if(Final == NULL)			//En caso de que sea el primer dato a ingresar
+	{
+		q -> anterior = NULL;
+		q -> siguiente = NULL;
+		Final = q;
+		Frente = q;
+	}
+	else
+	{
+		q -> siguiente = NULL;
+		q -> anterior = Final;
+		Final -> siguiente = q;				
+		Final = q;
+	}
+}
+
+
+void Nodo::Mostrar(TDlista &Frente,TDlista &Final)
 {
 	TDlista q;
 	q = Frente;
@@ -92,7 +117,9 @@ void Nodo::Mostrar()
 
 void main()
 {
-	TDlista Prueba;	
+	TDlista Prueba;
+	TDlista Comienzo = NULL;
+	TDlista Termino = NULL;
 	int opcion;
 	int dato;
 		while(opcion != 8)
@@ -115,17 +142,17 @@ void main()
 					break;
 				}
 
-				/*case 2 :
+				case 2 :
 				{
 					tituloPrincipal();
 					cout<<"Digite su dato :";
 					cin>>dato;
-					Prueba.Push_final(Prueba,dato);
+					Prueba -> Push_final(Comienzo,Termino,dato);
 					cout<<"\n\nPulse enter";
 					getch();
 					clrscr();
 					break;
-				}*/
+				}
 
 				case 3:
 				{
